@@ -1,3 +1,7 @@
+sudo: required
+services:
+  - docker
+
 language: python
 python:
   - "2.7"
@@ -5,3 +9,33 @@ install:
   - pip install -r requirements.txt
 script:
   - python -m pytest -v
+
+jobs:
+  include:
+    - stage: deploy to docker hub
+      script: sh .travis/deploy_dockerhub.sh
+    - stage: deploy to s3
+      deploy:
+      - provider: s3
+        access_key_id: $AWS_ACCESS_KEY
+        secret_access_key: $AWS_SECRET_KEY
+        local_dir: pythontest
+        skip_cleanup: true
+        on: &2
+        repo: organization/reponameHERE
+        bucket: travis-code-deploy-test
+        region: us-east-2
+      - provider: codedeploy
+        access_key_id: $AWS_ACCESS_KEY
+        secret_access_key: $AWS_SECRET_KEY
+        bucket: travis-code-deploy-test
+        key: latest.zip
+        bundle_type: zip
+        application: travis-test-deploy
+        deployment_group: travis-test-deploy
+        region: us-east-2
+        on: *2
+      script:
+        - zip -r latest *
+        - mkdir -p pythontest
+        - mv latest.zip pythontest/latest.zip
