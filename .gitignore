@@ -3,4 +3,4 @@ venv
 terraform
 *terraform*
 .terraform
-.gitignore
+.gitignore*
