@@ -18,6 +18,7 @@ jobs:
        - docker build -f Dockerfile -t $TRAVIS_REPO_SLUG:$TRAVIS_BRANCH .
        - docker run --rm -p 5000:5000 -d $TRAVIS_REPO_SLUG:$TRAVIS_BRANCH
        - docker ps | grep -q "$TRAVIS_REPO_SLUG:$TRAVIS_BRANCH"
+       - sleep 2
        - curl "localhost:5000"
        - sleep 3
        - "curl -X GET localhost:5000"
