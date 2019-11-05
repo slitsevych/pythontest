@@ -1,8 +1,5 @@
-sudo: required
-services:
-- docker
-
 language: python
+sudo: required
 python:
 - "2.7"
 install:
@@ -10,13 +7,15 @@ install:
 script:
 - python -m pytest -v
 
+services:
+- docker
+
 jobs:
   include:
     - stage: deploy to dockerhub
-      before_script:
-      - docker build -f Dockerfile -t $TRAVIS_REPO_SLUG:$TRAVIS_BRANCH .
-      - docker run --rm -p 5000:5000 -d $TRAVIS_REPO_SLUG:$TRAVIS_BRANCH
       script:
+       - docker build -f Dockerfile -t $TRAVIS_REPO_SLUG:$TRAVIS_BRANCH .
+       - docker run --rm -p 5000:5000 -d $TRAVIS_REPO_SLUG:$TRAVIS_BRANCH
        - curl -X GET http://localhost:5000
        - echo "$DOCKER_PASS" | docker login -u "$DOCKER_USERNAME" --password-stdin
        - docker push $TRAVIS_REPO_SLUG
