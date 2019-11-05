@@ -21,7 +21,7 @@ jobs:
        - echo "$DOCKER_PASS" | docker login -u "$DOCKER_USERNAME" --password-stdin
        - docker push $TRAVIS_REPO_SLUG
 
-    - stage: deploy to s3 and codedeploy
+    - stage: deploy to s3 and codedeploy app
       deploy:
       - provider: s3
         access_key_id: $AWS_ACCESS_KEY
