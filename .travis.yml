@@ -22,7 +22,7 @@ jobs:
        - curl "localhost:5000"
        - "curl -X GET localhost:5000"
        - docker push $TRAVIS_REPO_SLUG
-    - stage: try out terraform
+    - stage: try out terraform-2
       script:
       - curl -sLo /tmp/terraform.zip https://releases.hashicorp.com/terraform/0.12.6/terraform_0.12.6_linux_amd64.zip
       - unzip /tmp/terraform.zip -d /tmp
