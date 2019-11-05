@@ -22,7 +22,6 @@ jobs:
        - curl "localhost:5000"
        - "curl -X GET localhost:5000"
        - docker push $TRAVIS_REPO_SLUG
-
     - stage: try out terraform
       script:
       - curl -sLo /tmp/terraform.zip https://releases.hashicorp.com/terraform/0.12.6/terraform_0.12.6_linux_amd64.zip
@@ -33,7 +32,6 @@ jobs:
       - cd terraform/
       - terraform plan
       - terraform apply
-
     - stage: deploy to s3 and codedeploy app
       deploy:
       - provider: s3
@@ -45,7 +43,6 @@ jobs:
           branch: master
         bucket: travisdeploy-s3
         region: us-east-2
-
       - provider: codedeploy
         access_key_id: $AWS_ACCESS_KEY
         secret_access_key: $AWS_SECRET_KEY
