@@ -1,6 +1,6 @@
 jobs:
   include:
-    - stage: test python script
+    - stage: test python
       language: python
       python:
       - "2.7"
