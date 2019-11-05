@@ -10,13 +10,12 @@ install:
 script:
 - python -m pytest -v
 
-
 jobs:
   include:
-    - stage: deploy to docker hub
+    - stage: deploy to dockerhub
       before_script:
-      - docker build -f Dockerfile -t $TRAVIS_REPO_SLUG:$TAG .
-      - docker run --rm -p 5000:5000 -d $TRAVIS_REPO_SLUG:$TAG
+      - docker build -f Dockerfile -t $TRAVIS_REPO_SLUG:$TRAVIS_BRANCH .
+      - docker run --rm -p 5000:5000 -d $TRAVIS_REPO_SLUG:$TRAVIS_BRANCH
       script:
        - curl -X GET http://localhost:5000
        - echo "$DOCKER_PASS" | docker login -u "$DOCKER_USERNAME" --password-stdin
