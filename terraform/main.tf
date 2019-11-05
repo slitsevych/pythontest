@@ -5,7 +5,7 @@ provider "aws" {
   secret_key = "$AWS_SECRET_KEY"
   region     = "${var.region}"
 }
-###################################################
+#################################################
 #Creating security group for EFS mount
 resource "aws_security_group" "EC2_sg" {
   name   = "EC2_SG"
