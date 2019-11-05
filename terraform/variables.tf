@@ -1,0 +1,49 @@
+variable "region" {
+  default = "us-east-2"
+}
+
+variable "env" {
+  default = "travisdeploy"
+}
+
+variable "key_pair" {
+  default     = "s.litsevychkeys"
+  description = "my key pair"
+}
+
+variable "instance_type" {
+  default     = "t2.micro"
+  description = "instance type"
+}
+
+variable "my_ip" {
+  description = "default ip"
+  default     = "159.224.7.123/32"
+}
+
+variable "public" {
+  description = "public route"
+  default     = "0.0.0.0/0"
+}
+
+variable "vpc_id" {
+  default = "vpc-39f15050"
+}
+
+variable "cred_path" {
+  default = "/home/aim/.aws/credentials"
+}
+
+variable "public_subnets" {
+  type    = "list"
+  default = ["subnet-60ac691b", "subnet-47f6e80d", "subnet-932796fa"]
+}
+
+data "aws_ami" "ami" {
+  owners      = ["290148839206"]
+  most_recent = true
+  filter {
+    name   = "name"
+    values = ["*ami-ubuntu-18*"]
+  }
+}

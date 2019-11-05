@@ -16,14 +16,23 @@ jobs:
     - stage: deploy to dockerhub
       script:
        - docker login -u $DOCKER_USER -p $DOCKER_PASS
-       - docker build -f Dockerfile -t $TRAVIS_REPO_SLUG:$TRAVIS_BRANCH .
-       - docker run --rm -p 5000:5000 -d $TRAVIS_REPO_SLUG:$TRAVIS_BRANCH
-       - docker ps | grep -q "$TRAVIS_REPO_SLUG:$TRAVIS_BRANCH"
-       - sleep 2
+       - docker build -f Dockerfile -t $TRAVIS_REPO_SLUG:$TRAVIS_BUILD_NUMBER .
+       - docker run --rm -p 5000:5000 -d $TRAVIS_REPO_SLUG:$TRAVIS_BUILD_NUMBER
+       - docker ps | grep -q "$TRAVIS_REPO_SLUG:$TRAVIS_BUILD_NUMBER"
        - curl "localhost:5000"
-       - sleep 3
        - "curl -X GET localhost:5000"
        - docker push $TRAVIS_REPO_SLUG
+
+    - stage: try out terraform
+      script:
+      - curl -sLo /tmp/terraform.zip https://releases.hashicorp.com/terraform/0.12.6/terraform_0.12.6_linux_amd64.zip
+      - unzip /tmp/terraform.zip -d /tmp
+      - mkdir ~/bin
+      - mv /tmp/terraform ~/bin
+      - export PATH="~/bin:$PATH"
+      - cd terraform/
+      - terraform plan
+      - terraform apply
 
     - stage: deploy to s3 and codedeploy app
       deploy:

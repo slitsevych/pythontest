@@ -1,6 +1,10 @@
 *venv*
 venv
-terraform
-*terraform*
+terraform/.terraform
+terraform/credentials
+./terraform/.*credentials
+./terraform/credentials
+*terraform/.*
 .terraform
 .gitignore*
+*credentials*

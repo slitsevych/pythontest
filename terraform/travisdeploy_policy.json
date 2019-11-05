@@ -1,0 +1,20 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "ec2:*",
+        "s3:PutObject",
+        "s3:Get*",
+        "s3:List*",
+        "codedeploy:RegisterApplicationRevision",
+        "codedeploy:GetApplicationRevision",
+        "codedeploy:CreateDeployment",
+        "codedeploy:GetDeployment",
+        "codedeploy:GetDeploymentConfig"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}
