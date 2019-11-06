@@ -11,7 +11,8 @@ services:
 jobs:
   include:
     - stage: python test
-      script: python -m pytest -v
+      script:
+       - python -m pytest -v
     - stage: deploy to dockerhub
       script:
        - docker login -u $DOCKER_USER -p $DOCKER_PASS
@@ -37,7 +38,7 @@ jobs:
         secret_access_key: $AWS_SECRET_KEY
         local_dir: pythontest
         skip_cleanup: true
-        on: &2
+        on:
           branch: master
         bucket: travisdeploy-s3
         region: us-east-2
@@ -45,14 +46,12 @@ jobs:
         access_key_id: $AWS_ACCESS_KEY
         secret_access_key: $AWS_SECRET_KEY
         bucket: travisdeploy-s3
-        file_exists_behavior: overwrite
         key: latest.zip
         bundle_type: zip
         application: travisdeploy-app
         deployment_group: travisdeploy-group
-        wait_until_deployed: true
         region: us-east-2
-        on: *2
+        on:
           branch: master
       script:
         - zip -r latest *
