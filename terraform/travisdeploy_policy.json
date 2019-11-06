@@ -3,6 +3,7 @@
   "Statement": [
     {
       "Action": [
+        "iam:Get*",
         "ec2:*",
         "s3:PutObject",
         "s3:Get*",

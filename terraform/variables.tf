@@ -7,23 +7,19 @@ variable "env" {
 }
 
 variable "key_pair" {
-  default     = "s.litsevychkeys"
-  description = "my key pair"
+  default = "s.litsevychkeys"
 }
 
 variable "instance_type" {
-  default     = "t2.micro"
-  description = "instance type"
+  default = "t2.micro"
 }
 
 variable "my_ip" {
-  description = "default ip"
-  default     = "159.224.7.123/32"
+  default = "159.224.7.123/32"
 }
 
 variable "public" {
-  description = "public route"
-  default     = "0.0.0.0/0"
+  default = "0.0.0.0/0"
 }
 
 variable "vpc_id" {
@@ -31,7 +27,8 @@ variable "vpc_id" {
 }
 
 variable "cred_path" {
-  default = "/home/aim/.aws/credentials"
+  #default = "/home/aim/.aws/credentials"
+  default = "./credentials"
 }
 
 variable "public_subnets" {

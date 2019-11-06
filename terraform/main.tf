@@ -1,9 +1,17 @@
 #Initializing provider in us-east-2 region
 provider "aws" {
-  #shared_credentials_file = "${var.cred_path}"
-  access_key = "$AWS_ACCESS_KEY"
-  secret_key = "$AWS_SECRET_KEY"
-  region     = "${var.region}"
+  shared_credentials_file = "${var.cred_path}"
+  region                  = "${var.region}"
+}
+
+#Initiliazing backend to store remote state
+terraform {
+  backend "s3" {
+    bucket  = "live-s3storage"
+    key     = "pythontest/terraform.tfstate"
+    encrypt = true
+    region  = "us-east-2"
+  }
 }
 #################################################
 #Creating security group for EFS mount
@@ -73,7 +81,7 @@ resource "aws_iam_instance_profile" "travisdeploy_instance_profile" {
 }
 
 #creating iam policy
-resource "aws_iam_role_policy" "s3_policy" {
+resource "aws_iam_role_policy" "travisdeploy_policy" {
   name   = "${var.env}_policy"
   role   = "${aws_iam_role.travisdeploy_role.id}"
   policy = "${data.template_file.travisdeploy_policy.rendered}"
