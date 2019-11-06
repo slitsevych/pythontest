@@ -29,8 +29,8 @@ jobs:
       - cd terraform/
       - terraform init
       script:
-       - terraform plan -out=tfplan
-       - terraform apply tfplan -auto-approve
+       - terraform plan
+       - terraform apply -auto-approve
     - stage: deploy to s3 and codedeploy app
       deploy:
       - provider: s3
