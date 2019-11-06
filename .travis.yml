@@ -18,7 +18,7 @@ jobs:
        - docker login -u $DOCKER_USER -p $DOCKER_PASS
        - docker build -f Dockerfile -t $TRAVIS_REPO_SLUG:$TRAVIS_BUILD_NUMBER .
        - docker run --rm -p 5000:5000 -d $TRAVIS_REPO_SLUG:$TRAVIS_BUILD_NUMBER
-       - docker ps | grep -"$TRAVIS_REPO_SLUG:$TRAVIS_BUILD_NUMBER"
+       - docker ps | grep "$TRAVIS_REPO_SLUG:$TRAVIS_BUILD_NUMBER"
        - docker push $TRAVIS_REPO_SLUG
     - stage: try out terraform
       script:
