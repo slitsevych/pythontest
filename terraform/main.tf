@@ -140,3 +140,28 @@ resource "aws_codedeploy_deployment_group" "example" {
     events  = ["DEPLOYMENT_FAILURE"]
   }
 }
+
+resource "aws_codedeploy_app" "travisdeploy_gitlab" {
+  compute_platform = "Server"
+  name             = "${var.env}-app-gitlab"
+}
+
+resource "aws_codedeploy_deployment_group" "travisdeploy_gitlab" {
+  app_name               = "${aws_codedeploy_app.travisdeploy_gitlab.name}"
+  deployment_group_name  = "${var.env}-group-gitlab"
+  deployment_config_name = "CodeDeployDefault.OneAtATime"
+  service_role_arn       = "${aws_iam_role.travisdeploy_role.arn}"
+
+  ec2_tag_set {
+    ec2_tag_filter {
+      key   = "Name"
+      type  = "KEY_AND_VALUE"
+      value = "${var.env}-instance"
+    }
+  }
+
+  auto_rollback_configuration {
+    enabled = true
+    events  = ["DEPLOYMENT_FAILURE"]
+  }
+}
