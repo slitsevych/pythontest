@@ -21,15 +21,16 @@ jobs:
        - docker ps | grep "$TRAVIS_REPO_SLUG:$TRAVIS_BUILD_NUMBER"
        - docker push $TRAVIS_REPO_SLUG
     - stage: try out terraform
+      before_script:
+      - curl -sLo /tmp/terraform.zip https://releases.hashicorp.com/terraform/0.12.6/terraform_0.12.6_linux_amd64.zip
+      - unzip /tmp/terraform.zip -d /tmp
+      - mv /tmp/terraform ~/bin
+      - export PATH="~/bin:$PATH"
+      - cd terraform/
+      - terraform init
       script:
-       - curl -sLo /tmp/terraform.zip https://releases.hashicorp.com/terraform/0.12.6/terraform_0.12.6_linux_amd64.zip
-       - unzip /tmp/terraform.zip -d /tmp
-       - mv /tmp/terraform ~/bin
-       - export PATH="~/bin:$PATH"
-       - cd terraform/
-       - terraform init
-       - terraform plan
-       - terraform apply
+       - terraform plan -out=tfplan
+       - terraform apply tfplan -auto-approve
     - stage: deploy to s3 and codedeploy app
       deploy:
       - provider: s3
