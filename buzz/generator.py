@@ -1,11 +1,9 @@
 import random
 
-buzz = ('continuous testing', 'continuous integration',
-    'continuous deployment', 'continuous improvement', 'devops')
-adjectives = ('complete', 'modern', 'self-service', 'integrated', 'end-to-end')
-adverbs = ('remarkably', 'enormously', 'substantially', 'significantly',
-    'seriously')
-verbs = ('accelerates', 'improves', 'enhances', 'revamps', 'boosts')
+buzz = ('AVGVSTVS', 'CAESAR', 'CLAVDIVS', 'TIBERIVS', 'GAIVS', 'ANTONINVS', 'MARCVS', 'FLAVIVS')
+adjectives = ('Imperator', 'Destinatus', 'Princeps', 'Dominus', 'Basileus','Magister militum')
+adverbs = ('Pontifex Maximus', 'Perpetuus', 'Invictus','Nobilissimus','Divi','Filius')
+verbs = ('Consul', 'Censor', 'Pater Patriae', 'Pius Felix', 'Praefectus')
 
 def sample(l, n = 1):
     result = random.sample(l, n)
@@ -20,4 +18,4 @@ def generate_buzz():
     return phrase.title()
 
 if __name__ == "__main__":
-    print generate_buzz()
+    print (generate_buzz())

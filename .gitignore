@@ -2,9 +2,12 @@
 venv
 terraform/.terraform
 terraform/credentials
+terraform/tfplan
 ./terraform/.*credentials
 ./terraform/credentials
 *terraform/.*
 .terraform
 .gitignore*
 *credentials*
+*.pytest*
+*__pycache__*

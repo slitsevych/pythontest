@@ -1,10 +1,10 @@
 language: python
 sudo: required
 python:
-- "2.7"
+- "3.6"
 install:
-- pip install -r requirements.txt
-- pip install awscli
+- pip3 install -r requirements.txt
+- pip3 install awscli
 services:
 - docker
 
@@ -12,10 +12,10 @@ jobs:
   include:
     - stage: python test
       script:
-       - python -m pytest -v
+       - python3 -m pytest -v
     - stage: deploy to dockerhub
       script:
-       - docker login -u $DOCKER_USER -p $DOCKER_PASS
+       - echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
        - docker build -f Dockerfile -t $TRAVIS_REPO_SLUG:$TRAVIS_BUILD_NUMBER .
        - docker run --rm -p 5000:5000 -d $TRAVIS_REPO_SLUG:$TRAVIS_BUILD_NUMBER
        - docker ps | grep "$TRAVIS_REPO_SLUG:$TRAVIS_BUILD_NUMBER"
@@ -29,8 +29,8 @@ jobs:
       - cd terraform/
       - terraform init
       script:
-       - terraform plan
-       - terraform apply -auto-approve
+       - terraform plan -out=tfplan
+       - terraform apply "tfplan" -auto-approve
     - stage: deploy to s3 and codedeploy app
       deploy:
       - provider: s3

@@ -27,8 +27,8 @@ variable "vpc_id" {
 }
 
 variable "cred_path" {
-  #default = "/home/aim/.aws/credentials"
-  default = "./credentials"
+  default = "/home/aim/.aws/credentials"
+  #default = "./credentials"
 }
 
 variable "public_subnets" {
