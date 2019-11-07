@@ -54,6 +54,6 @@ jobs:
         on:
           branch: master
       script:
-        - zip -r latest *
+        - zip -r latest.zip . -x "terraform/*"
         - mkdir -p pythontest
         - mv latest.zip pythontest/latest.zip
