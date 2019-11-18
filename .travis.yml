@@ -2,17 +2,17 @@ language: python
 sudo: required
 python:
 - "3.6"
-install:
-- pip3 install -r requirements.txt
-- pip3 install awscli
 services:
 - docker
 
 jobs:
   include:
-    - stage: python test
+    - stage: python tests
+      before_script:
+       - pip3 install -r requirements.txt
       script:
        - python3 -m pytest -v
+       - python3 -m unittest -v
     - stage: deploy to dockerhub
       script:
        - echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
@@ -20,7 +20,7 @@ jobs:
        - docker run --rm -p 5000:5000 -d $TRAVIS_REPO_SLUG:$TRAVIS_BUILD_NUMBER
        - docker ps | grep "$TRAVIS_REPO_SLUG:$TRAVIS_BUILD_NUMBER"
        - docker push $TRAVIS_REPO_SLUG
-    - stage: try out terraform
+    - stage: terraform checkout
       before_script:
       - curl -sLo /tmp/terraform.zip https://releases.hashicorp.com/terraform/0.12.6/terraform_0.12.6_linux_amd64.zip
       - unzip /tmp/terraform.zip -d /tmp
@@ -31,7 +31,9 @@ jobs:
       script:
        - terraform plan -out=tfplan
        - terraform apply "tfplan"
-    - stage: deploy to s3 and codedeploy app
+    - stage: deploy to s3/codedeploy
+      before_deploy:
+      - pip3 install awscli
       deploy:
       - provider: s3
         access_key_id: $AWS_ACCESS_KEY
@@ -54,6 +56,6 @@ jobs:
         on:
           branch: master
       script:
-        - zip -r latest.zip . -x "terraform/*"
+        - zip -r latest.zip * -x "terraform/*"
         - mkdir -p pythontest
         - mv latest.zip pythontest/latest.zip
