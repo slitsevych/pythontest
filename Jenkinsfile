@@ -51,13 +51,13 @@ pipeline {
     }
     stage('Checking container') {
         steps {
-            sh "curl -I http://172.17.0.1:5000"
+            sh "curl -I $(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' pythontest):5000"
         }
     }
     stage('Stopping container') {
         steps {
             sh '''#!/bin/bash
-                 if [[ $(curl -I http://172.17.0.1:5000|grep "200 OK"|wc -l) = 1 ]]; then echo "Ok" && docker stop pythontest; fi
+                 if [[ $(curl -I $(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' pythontest):5000|grep "200 OK"|wc -l) = 1 ]]; then echo "Ok" && docker stop pythontest; fi
          '''
         }
     }
