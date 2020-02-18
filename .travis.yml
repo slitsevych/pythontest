@@ -22,7 +22,7 @@ jobs:
        - docker push $TRAVIS_REPO_SLUG
     - stage: terraform checkout
       before_script:
-      - curl -sLo /tmp/terraform.zip https://releases.hashicorp.com/terraform/0.12.6/terraform_0.12.6_linux_amd64.zip
+      - curl -sLo /tmp/terraform.zip https://releases.hashicorp.com/terraform/0.12.16/terraform_0.12.16_linux_amd64.zip
       - unzip /tmp/terraform.zip -d /tmp
       - mv /tmp/terraform ~/bin
       - export PATH="~/bin:$PATH"

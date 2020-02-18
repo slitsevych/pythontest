@@ -1,0 +1,10 @@
+terraform
+.git
+.gitignore
+.travis.yml
+appspec.yml
+Jenkinsfile
+Dockerfile
+.dockerignore
+tests
+venv

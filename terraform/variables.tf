@@ -27,7 +27,7 @@ variable "vpc_id" {
 }
 
 variable "cred_path" {
-  default = "/home/aim/.aws/credentials"
+  #default = "/home/aim/.aws/credentials"
   #default = "./credentials"
 }
 
